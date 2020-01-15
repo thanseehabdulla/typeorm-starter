@@ -3,8 +3,9 @@ import {createConnection} from "typeorm";
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import {Request, Response} from "express";
-import {Routes} from "./routes";
+import {Routes} from "../routes/";
 import {User} from "./entity/User";
+import {Consumer} from "./entity/Consumer";
 
 createConnection().then(async connection => {
 
@@ -15,6 +16,7 @@ createConnection().then(async connection => {
     // register express routes from defined application routes
     Routes.forEach(route => {
         (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
+            console.log("request",req)
             const result = (new (route.controller as any))[route.action](req, res, next);
             if (result instanceof Promise) {
                 result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
@@ -32,14 +34,22 @@ createConnection().then(async connection => {
     app.listen(3000);
 
     // insert new users for test
+    
     await connection.manager.save(connection.manager.create(User, {
         firstName: "Timber",
         lastName: "Saw",
         age: 27
     }));
+    
     await connection.manager.save(connection.manager.create(User, {
         firstName: "Phantom",
         lastName: "Assassin",
+        age: 24
+    }));
+
+    await connection.manager.save(connection.manager.create(Consumer, {
+        name: "Phantom",
+        email: "Assassin",
         age: 24
     }));
 

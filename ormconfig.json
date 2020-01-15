@@ -2,9 +2,9 @@
    "type": "mysql",
    "host": "localhost",
    "port": 3306,
-   "username": "dbtest",
-   "password": "Dbtest@123456",
-   "database": "dbtestschema",
+   "username": "abdullathanseeh",
+   "password": "thanseeh123",
+   "database": "ormtestschema",
    "synchronize": true,
    "logging": false,
    "entities": [
